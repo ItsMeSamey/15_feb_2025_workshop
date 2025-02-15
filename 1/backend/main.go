@@ -1,11 +1,11 @@
 package main
 
 import (
-	"errors"
-	"net/http"
-	"strconv"
+  "errors"
+  "net/http"
+  "strconv"
 
-	"github.com/gofiber/fiber/v3"
+  "github.com/gofiber/fiber/v3"
 )
 
 var tasks []string
@@ -25,8 +25,12 @@ func removeHandler(c fiber.Ctx) (err error) {
   if err != nil { return err }
 
   if len(tasks) < idx { return errors.New("Invalid index") }
+  if idx == len(tasks) - 1 {
+    tasks = tasks[:idx]
+  } else {
+    tasks = append(tasks[:idx], tasks[idx+1:]...)
+  }
 
-  tasks = append(tasks[:idx-1], tasks[idx:]...)
   return c.SendStatus(200)
 }
 
